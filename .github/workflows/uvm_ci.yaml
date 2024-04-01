@@ -57,7 +57,7 @@ jobs:
           name: failed_tests
           path: verify/uvm-python/failed_tests.tar.gz
 
-  verify_AHB_2:
+  verify_gl_AHB:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -74,7 +74,7 @@ jobs:
       - name: Navigate to verify/uvm-python and run tests
         run: |
           cd verify/uvm-python
-          make run_all_tests RUN_MERGE_COVERAGE=false BUS_TYPE=AHB
+          make run_all_gl_tests RUN_MERGE_COVERAGE=false BUS_TYPE=AHB
 
       - name: Check for test results in run
         run: |
