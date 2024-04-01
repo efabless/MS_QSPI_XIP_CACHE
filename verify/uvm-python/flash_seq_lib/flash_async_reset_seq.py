@@ -7,7 +7,6 @@ from EF_UVM.bus_env.bus_seq_lib.bus_seq_base import bus_seq_base
 from cocotb.triggers import Timer
 from uvm.macros.uvm_sequence_defines import uvm_do_with, uvm_do
 import random
-from EF_UVM.bus_env.bus_seq_lib.reset_seq import reset_seq
 import cocotb
 
 
@@ -39,7 +38,7 @@ class flash_async_reset_seq(bus_seq_base):
         while True:
             rand_time = random.randint(10000, 50000)
             await Timer(rand_time, "ns") # wait random time for async reset
-            await uvm_do(self, reset_seq("reset"))
+            await self.send_reset()
 
 
 uvm_object_utils(flash_async_reset_seq)

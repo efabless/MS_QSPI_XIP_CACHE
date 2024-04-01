@@ -40,7 +40,7 @@ class flash_VIP(ref_model):
 
     def write_bus(self, tr):
         uvm_info(self.tag, "Vip write: " + tr.convert2string(), UVM_HIGH)
-        if tr.reset:
+        if tr.kind == bus_item.RESET:
             self.bus_bus_export.write(tr)
             return
         if tr.kind == bus_item.READ:
