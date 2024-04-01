@@ -10,11 +10,14 @@ VIP_FILES ?= $(PWD)/../vip/sst26wf080b.v
 VERILOG_SOURCES ?=  $(PWD)/top.v $(AHB_FILES) $(APB_FILES) $(WB_FILES) $(HDL_FILES) $(VIP_FILES)
 RTL_MACROS += ""
 BUS_TYPE ?= AHB
+GL_MACROS += -DFUNCTIONAL 
+
+# GL_MACROS += "$(RTL_MACROS) -DFUNCTIONAL -DUNIT_DELAY=##1"
 ## netlist Gen 
 DESIGN_NAME = MS_QSPI_XIP_CACHE_ahbl
-PRE_SYS_FILES = $(AHB_FILES) $(APB_FILES) $(WB_FILES) $(HDL_FILES) $(VIP_FILES)
-PDK_FILES = "/home/rady/.volare/volare/sky130/versions/bdc9412b3e468c102d01b7cf6337be06ec6e9c9a/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives.v" "/home/rady/.volare/volare/sky130/versions/bdc9412b3e468c102d01b7cf6337be06ec6e9c9a/sky130A/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v"
-POST_SYS_FILES = $(PWD)/top.v $(VIP_FILES) $(PWD)/../../hdl/gl/synthesis/nl/$(DESIGN_NAME).nl.v  $(PDK_FILES)
+PRE_SYS_FILES = $(AHB_FILES) $(APB_FILES) $(WB_FILES) $(HDL_FILES)
+PDK_FILES = /home/rady/.volare/volare/sky130/versions/bdc9412b3e468c102d01b7cf6337be06ec6e9c9a/sky130A/libs.ref/sky130_fd_sc_hd/verilog/primitives.v  /home/rady/.volare/volare/sky130/versions/bdc9412b3e468c102d01b7cf6337be06ec6e9c9a/sky130A/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v
+POST_SYS_FILES = $(PWD)/top.v $(VIP_FILES) $(PWD)/../../hdl/gl/synthesis/nl/$(DESIGN_NAME).nl.v $(PDK_FILES)
 # ifeq ($(BUS_TYPE),APB)
 #     RTL_MACROS += -DBUS_TYPE_APB
 # else ifeq ($(BUS_TYPE),AHB)
