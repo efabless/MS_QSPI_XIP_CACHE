@@ -71,6 +71,10 @@ jobs:
         run: |
           docker pull efabless/dv:cocotb
 
+      - name: install openlane 
+        run: |
+          pip install openlane
+
       - name: Navigate to verify/uvm-python and run tests
         run: |
           cd verify/uvm-python
