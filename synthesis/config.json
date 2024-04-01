@@ -1,0 +1,13 @@
+{
+    "meta": {
+		"version": 2,
+		"flow": [
+			"Verilator.Lint",
+			"Checker.LintErrors",
+			"Yosys.Synthesis",
+            "Checker.YosysUnmappedCells",
+            "Checker.YosysSynthChecks"
+		]
+	},
+    "VERILOG_FILES": ["dir::/../hdl/rtl/MS_QSPI_XIP_CACHE.v", "dir::/../hdl/rtl/bus_wrappers/MS_QSPI_XIP_CACHE_ahbl.v"]
+}
