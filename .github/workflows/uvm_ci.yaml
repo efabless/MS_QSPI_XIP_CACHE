@@ -73,7 +73,7 @@ jobs:
 
       - name: install openlane 
         run: |
-          pip install openlane>=2.0.0b17
+          pip install openlane==2.0.0b17
 
       - name: Navigate to verify/uvm-python and run tests
         run: |
