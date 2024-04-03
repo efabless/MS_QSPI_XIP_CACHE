@@ -73,7 +73,9 @@ jobs:
 
       - name: install openlane 
         run: |
-          pip install openlane==2.0.0b17
+          pip install openlane
+          mkdir -p $HOME/.volare
+          chmod -R 755 $HOME/.volare
 
       - name: Navigate to verify/uvm-python and run tests
         run: |
