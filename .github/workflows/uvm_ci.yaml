@@ -70,10 +70,10 @@ jobs:
           remove-docker-images: "true"
           root-reserve-mb: 20480
       
+      - uses: actions/checkout@v3
       - name: Setup Nix
         run: |
           bash ./.github/scripts/install-nix.bash
-      - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
