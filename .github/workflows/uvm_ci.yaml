@@ -83,6 +83,10 @@ jobs:
         run: |
           docker pull efabless/dv:cocotb
 
+      - name: Install Python Dependencies
+        run: |
+          pip install volare
+
       - name: Navigate to verify/uvm-python and run tests
         run: |
           cd verify/uvm-python
