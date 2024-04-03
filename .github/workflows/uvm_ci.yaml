@@ -76,6 +76,7 @@ jobs:
           extra-conf: |
             extra-substituters = https://openlane.cachix.org
             extra-trusted-public-keys = openlane.cachix.org-1:qqdwh+QMNGmZAuyeQJTH9ErW57OWSvdtuwfBKdS254E=
+            accept-flake-config = true
 
       - name: Set up Python
         uses: actions/setup-python@v2
