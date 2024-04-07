@@ -40,8 +40,8 @@ MS_QSPI_XIP_CACHE_APB INST (
 The following table is the result for implementing the MS_QSPI_XIP_CACHE IP with different wrappers using Sky130 PDK and [yosys](https://github.com/YosysHQ/yosys).
 |Module | Number of cells | Max. freq |
 |---|---|---|
-|MS_QSPI_XIP_CACHE||  |
-|MS_QSPI_XIP_CACHE_AHBL|||
+|MS_QSPI_XIP_CACHE|534| 384 MHz |
+|MS_QSPI_XIP_CACHE_AHBL|13024|40 MHz|
 
 ### The Interface 
 
