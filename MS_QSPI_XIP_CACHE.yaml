@@ -20,19 +20,46 @@ info:
   - AHBL
   type": soft
   status: verified
-  cell_count: '10000'
+  cell_count:
+    - IP: 
+    - AHBL:  
   width": '0.0'
   height": '0.0'
   technology: n/a
-  clock_freq_mhz: '40'
+  clock_freq_mhz:
+    - IP: 
+    - AHBL:  
   digital_supply_voltage: n/a
   analog_supply_voltage: n/a
 ports: []
-external_interface: []
+external_interface: 
+  - name: sck
+    port: sck
+    direction: output
+    description: spi serial clock 
+    width: 1
+  - name: ce_n
+    port: ce_n
+    direction: output
+    width: 1
+    description: slave select signal 
+  - name: din
+    port: din
+    direction: input
+    width: 4
+    description: spi data in 
+  - name: dout
+    port: dout
+    direction: output
+    width: 4
+    description: spi data out 
+  - name: douten
+    port: douten
+    direction: output
+    width: 4
+    description: spi data out enable 
 clock:
   name: clk
 reset:
   name: rst_n
   level: 0
-registers: []
-flags: []
