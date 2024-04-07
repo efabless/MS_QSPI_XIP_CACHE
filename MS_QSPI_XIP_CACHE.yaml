@@ -21,14 +21,14 @@ info:
   type": soft
   status: verified
   cell_count:
-    - IP: 
-    - AHBL:  
+    - IP: 534
+    - AHBL: 13024 
   width": '0.0'
   height": '0.0'
   technology: n/a
   clock_freq_mhz:
-    - IP: 
-    - AHBL:  
+    - IP: 384
+    - AHBL: 40  
   digital_supply_voltage: n/a
   analog_supply_voltage: n/a
 ports: []
