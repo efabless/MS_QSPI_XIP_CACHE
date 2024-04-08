@@ -26,10 +26,10 @@ AHB-Lite Quad I/O SPI Flash memory controller with direct mapped cache and suppo
 ```verilog
 MS_QSPI_XIP_CACHE_APB INST (
         `TB_AHBL_SLAVE_CONN,
-        .sck(sck)
-        .ce_n(ce_n)
-        .din(din)
-        .dout(dout)
+        .sck(sck),
+        .ce_n(ce_n),
+        .din(din),
+        .dout(dout),
         .douten(douten)
 );
 ```
@@ -37,14 +37,14 @@ MS_QSPI_XIP_CACHE_APB INST (
 
 ## Implementation example  
 
-The following table is the result for implementing the MS_QSPI_XIP_CACHE IP with different wrappers using Sky130 PDK and [yosys](https://github.com/YosysHQ/yosys).
+The following table is the result for implementing the MS_QSPI_XIP_CACHE IP with different wrappers using Sky130 PDK and [OpenLane2](https://github.com/efabless/openlane2) flow.
 |Module | Number of cells | Max. freq |
 |---|---|---|
 |MS_QSPI_XIP_CACHE|534| 384 MHz |
 |MS_QSPI_XIP_CACHE_AHBL|13024|40 MHz|
 
 ### The Interface 
-
+<img src="docs/MS_QSPI_XIP_CACHE.svg" width="600"/>
 
 #### Ports 
 
