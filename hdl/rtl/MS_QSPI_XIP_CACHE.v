@@ -57,7 +57,6 @@ module FLASH_QSPI #(parameter LINE_SIZE   = 16)(
 
     wire         rst_sck;
     wire         rst_ce_n;
-    wire [3:0]  rst_din;
     wire [3:0]  rst_dout;
     wire        rst_douten;
 
@@ -109,7 +108,6 @@ module FLASH_QSPI #(parameter LINE_SIZE   = 16)(
         
         .sck(rst_sck), 
         .ce_n(rst_ce_n), 
-        .din(rst_din), 
         .dout(rst_dout), 
         .douten(rst_douten)  
     );
@@ -303,7 +301,6 @@ module FLASH_RESET #(parameter RESET_CYCLES=1023) (
 
     output  wire            sck,
     output  wire            ce_n,
-    input   wire [3:0]      din,
     output  wire [3:0]      dout,
     output  wire            douten
 );
