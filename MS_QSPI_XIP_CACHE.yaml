@@ -63,3 +63,5 @@ clock:
 reset:
   name: rst_n
   level: 0
+registers:
+- 
