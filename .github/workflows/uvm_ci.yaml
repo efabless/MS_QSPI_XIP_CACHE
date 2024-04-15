@@ -60,8 +60,23 @@ jobs:
   verify_gl_AHB:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          remove-dotnet: "true"
+          remove-android: "true"
+          remove-haskell: "true"
+          remove-codeql: "true"
+          remove-docker-images: "true"
+          root-reserve-mb: 20480
       
+      - uses: actions/checkout@v3
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          extra-conf: |
+            extra-substituters = https://openlane.cachix.org
+            extra-trusted-public-keys = openlane.cachix.org-1:qqdwh+QMNGmZAuyeQJTH9ErW57OWSvdtuwfBKdS254E=
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -70,12 +85,10 @@ jobs:
       - name: download docker
         run: |
           docker pull efabless/dv:cocotb
-      
-      -name: install openlane
+
+      - name: Install Python Dependencies
         run: |
-          pip install openlane
-          mkdir -p $HOME/.volare
-          chmod -R 755 $HOME/.volare
+          pip install volare
 
       - name: Navigate to verify/uvm-python and run tests
         run: |

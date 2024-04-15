@@ -18,13 +18,16 @@ PRE_SYS_FILES = $(AHB_FILES) $(APB_FILES) $(WB_FILES) $(HDL_FILES)
 PDK_DIR = $(HOME)/.volare/sky130A/
 PDK_FILES = $(PDK_DIR)/libs.ref/sky130_fd_sc_hd/verilog/primitives.v $(PDK_DIR)/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v # get this from openlane logs in the future 
 POST_SYS_FILES = $(PWD)/top.v $(VIP_FILES) $(PWD)/../../hdl/gl/synthesis/nl/$(DESIGN_NAME).nl.v
-# ifeq ($(BUS_TYPE),APB)
-#     RTL_MACROS += -DBUS_TYPE_APB
-# else ifeq ($(BUS_TYPE),AHB)
-#     RTL_MACROS += -DBUS_TYPE_AHB
-# else ifeq ($(BUS_TYPE),WISHBONE)
-#     RTL_MACROS += -DBUS_TYPE_WISHBONE
-# endif
+# set CLK_MAKEFILE and RST_MAKEFILE if running prepnr sta is needed.
+ifeq ($(BUS_TYPE),APB)
+    export CLK_MAKEFILE = PCLK
+    export RST_MAKEFILE = 
+else ifeq ($(BUS_TYPE),AHB)
+    export CLK_MAKEFILE = HCLK
+    export RST_MAKEFILE = HRESETn
+else ifeq ($(BUS_TYPE),WISHBONE)
+    RTL_MACROS += -DBUS_TYPE_WISHBONE
+endif
 # RTL_MACROS ?= "-DSKIP_WAVE_DUMP"
 YAML_FILE = $(PWD)/../../MS_QSPI_XIP_CACHE.yaml
 MAKEFLAGS += --no-print-directory
