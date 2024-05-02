@@ -22,6 +22,7 @@ class flash_read_seq(bus_seq_base):
             await self.read_address(address=address)
 
     async def read_address(self, address):
+        self.create_new_item()
         self.req.rand_mode(0)
         self.req.addr = address
         self.req.kind = bus_item.READ
