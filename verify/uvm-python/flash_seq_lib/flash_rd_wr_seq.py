@@ -19,10 +19,11 @@ class flash_rd_wr_seq(bus_seq_base):
         await super().body()
         for _ in range(1000):
             address = random.randrange(0, self.memory_size, 4)
-            is_error = True if random.random() < 0.2 else False # write 20% of the time
+            is_error = True if random.random() < 0.2 else False  # write 20% of the time
             await self.read_address(address=address, error=is_error)
 
     async def read_address(self, address, error=False):
+        self.create_new_item()
         self.req.rand_mode(0)
         self.req.addr = address
         if error:
