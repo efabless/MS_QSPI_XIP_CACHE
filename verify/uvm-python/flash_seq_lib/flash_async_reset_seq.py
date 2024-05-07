@@ -23,6 +23,7 @@ class flash_async_reset_seq(bus_seq_base):
         await self.read_rand_addresses()
 
     async def read_address(self, address):
+        self.create_new_item()
         self.req.rand_mode(0)
         self.req.addr = address
         self.req.kind = bus_item.READ
@@ -37,7 +38,7 @@ class flash_async_reset_seq(bus_seq_base):
     async def send_async_reset(self):
         while True:
             rand_time = random.randint(10000, 50000)
-            await Timer(rand_time, "ns") # wait random time for async reset
+            await Timer(rand_time, "ns")  # wait random time for async reset
             await self.send_reset()
 
 
