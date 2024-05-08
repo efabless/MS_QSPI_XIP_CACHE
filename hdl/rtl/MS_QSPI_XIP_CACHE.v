@@ -85,7 +85,7 @@ module FLASH_QSPI #(parameter LINE_SIZE   = 16)(
         if(!rst_n) d_first <= 1'b1;
         else d_first <= first;
 
-    FLASH_READER_QSPI #(.LINE_SIZE(16)) READER (
+    FLASH_READER_QSPI #(.LINE_SIZE(LINE_SIZE)) READER (
         .clk(clk),
         .rst_n(rst_n),
         .addr(addr),
@@ -228,7 +228,7 @@ module DMC_Nx16 #(parameter NUM_LINES = 16, parameter LINE_SIZE   = 16) (
     // 
     input wire  [23:0]              A,
     input wire  [23:0]              A_h,
-    output wire [31:0]              Do,
+    output reg [31:0]               Do,
     output wire                     hit,
     //
     input wire [(LINE_SIZE*8)-1:0]  line,
@@ -254,22 +254,18 @@ module DMC_Nx16 #(parameter NUM_LINES = 16, parameter LINE_SIZE   = 16) (
     
     assign  hit =   VALID[index_h] & (TAGS[index_h] == tag_h);
 
-    // Change this to support lines other than 16 bytes
-    
-    assign  Do  =   (offset[3:2] == 2'd0) ?  LINES[index][31:0] :
-                    (offset[3:2] == 2'd1) ?  LINES[index][63:32] :
-                    (offset[3:2] == 2'd2) ?  LINES[index][95:64] :
-                    LINES[index][127:96];
-    /*
-    assign  Do  =   (offset[4:2] == 2'd0) ?  LINES[index][31:0] :
-                    (offset[4:2] == 2'd1) ?  LINES[index][63:32] :
-                    (offset[4:2] == 2'd2) ?  LINES[index][95:64] :
-                    (offset[4:2] == 2'd3) ?  LINES[index][127:96] :
-                    (offset[4:2] == 2'd4) ?  LINES[index][159:128] :
-                    (offset[4:2] == 2'd5) ?  LINES[index][191:160] :
-                    (offset[4:2] == 2'd6) ?  LINES[index][223:192] :
-                    LINES[index][255:224] ;
-    */                
+    // DO
+    generate
+        genvar kk;
+        for (kk = 0; kk < NUM_LINES/4; kk = kk + 1) begin : gen_word_offset
+            wire [31:0] word = LINES[index][kk*32 +: 32]; // Part-select, starting at kk*32, 32 bits wide
+            always @(*) begin
+                if (offset[OFF_WIDTH-1:2] == kk) begin
+                    Do = word;
+                end
+            end
+        end
+    endgenerate
     
     // clear the VALID flags
     integer i;
