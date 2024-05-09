@@ -39,6 +39,7 @@ module top();
         .dout(dout),
         .douten(douten)
     );
+    assign HREADY = HREADYOUT;
     // vip interface 
     wire [3:0] SIO = (douten==4'b1111) ? dout : 4'bzzzz;
     assign din = SIO;

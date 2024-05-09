@@ -20,18 +20,21 @@ class flash_rd_wr_seq(bus_seq_base):
         for _ in range(1000):
             address = random.randrange(0, self.memory_size, 4)
             is_error = True if random.random() < 0.2 else False  # write 20% of the time
-            await self.read_address(address=address, error=is_error)
+            await self.read_bulk(address=address, error=is_error)
 
-    async def read_address(self, address, error=False):
-        self.create_new_item()
-        self.req.rand_mode(0)
-        self.req.addr = address
-        if error:
-            self.req.kind = bus_item.WRITE
-        else:
-            self.req.kind = bus_item.READ
-        self.req.data = 0  # needed to add any dummy value
-        await uvm_do(self, self.req)
+    async def read_bulk(self, address, error=False):
+        bulk_size = random.randrange(3, 50)
+        for _ in range(bulk_size):
+            self.create_new_item()
+            self.req.rand_mode(0)
+            self.req.addr = address
+            if error:
+                self.req.kind = bus_item.WRITE
+            else:
+                self.req.kind = bus_item.READ
+            self.req.data = 0  # needed to add any dummy value
+            await uvm_do(self, self.req)
+            address += 4
 
 
 uvm_object_utils(flash_rd_wr_seq)
