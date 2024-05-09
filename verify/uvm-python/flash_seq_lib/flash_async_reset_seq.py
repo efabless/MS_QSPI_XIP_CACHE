@@ -19,21 +19,31 @@ class flash_async_reset_seq(bus_seq_base):
     async def body(self):
         # get register names/address conversion dict
         await super().body()
-        await cocotb.start(self.send_async_reset())
+        # await cocotb.start(self.send_async_reset())
         await self.read_rand_addresses()
 
-    async def read_address(self, address):
-        self.create_new_item()
-        self.req.rand_mode(0)
-        self.req.addr = address
-        self.req.kind = bus_item.READ
-        self.req.data = 0  # needed to add any dummy value
-        await uvm_do(self, self.req)
+    async def read_bulk(self, address):
+        bulk_size = random.randrange(3, 50)
+        for _ in range(bulk_size):
+            self.create_new_item()
+            self.req.rand_mode(0)
+            self.req.addr = address
+            self.req.kind = bus_item.READ
+            self.req.data = 0  # needed to add any dummy value
+            await uvm_do(self, self.req)
+            address += 4
 
     async def read_rand_addresses(self):
         for _ in range(500):
             address = random.randrange(0, self.memory_size, 4)
-            await self.read_address(address=address)
+            await self.read_bulk(address=address)
+            is_reset = True if random.random() < 0.2 else False
+            if is_reset:
+                rsp = []
+                await self.get_response(rsp)
+                await self.get_response(rsp)
+                await self.send_nop()
+                await self.send_reset()
 
     async def send_async_reset(self):
         while True:

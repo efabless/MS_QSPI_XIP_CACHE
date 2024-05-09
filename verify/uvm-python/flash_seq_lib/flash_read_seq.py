@@ -17,9 +17,22 @@ class flash_read_seq(bus_seq_base):
     async def body(self):
         # get register names/address conversion dict
         await super().body()
-        for _ in range(2000):
+        await self.read_address(0xAC63C)
+        await self.read_address(0xAC640)
+        for _ in range(10):
             address = random.randrange(0, self.memory_size, 4)
-            await self.read_address(address=address)
+            await self.read_bulk(address=address)
+
+    async def read_bulk(self, address):
+        bulk_size = random.randrange(3, 50)
+        for _ in range(bulk_size):
+            self.create_new_item()
+            self.req.rand_mode(0)
+            self.req.addr = address
+            self.req.kind = bus_item.READ
+            self.req.data = 0  # needed to add any dummy value
+            await uvm_do(self, self.req)
+            address += 4
 
     async def read_address(self, address):
         self.create_new_item()
