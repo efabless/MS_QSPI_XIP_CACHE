@@ -30,9 +30,10 @@
     8           16          0.692 (1.5x)    2.217 (2.8x)    0.951 (2.2x)    0.218 (11.6x)   0.341 (6.4x)    3.69
     4           16          0.899 (1.1x)    4.983 (1.3x)    1.723 (1.2x)
     2           16          1.020 (1.0x)    6.243 (1.0x)    2.076 (1.0x)    2.527 ( 1.0x)   2.191 (1.0x)    1.00
-    
+
+   possible LINE_SIZE values after latest update 8 16 32
 */
-module MS_QSPI_XIP_CACHE_ahbl #(parameter NUM_LINES = 32 ) 
+module MS_QSPI_XIP_CACHE_ahbl #(parameter NUM_LINES = 32, LINE_SIZE = 32 ) 
 (
     // AHB-Lite Slave Interface
     input   wire                HCLK,
@@ -53,10 +54,10 @@ module MS_QSPI_XIP_CACHE_ahbl #(parameter NUM_LINES = 32 )
     output  wire [3:0]          douten     
 );
 
-    localparam [4:0]    LINE_SIZE   = 16;
     localparam [1:0]    IDLE        = 2'b00;
     localparam [1:0]    WAIT        = 2'b01;
     localparam [1:0]    RW          = 2'b10;
+    localparam OFF_WIDTH            = $clog2(LINE_SIZE);
 
     // Cache wires/buses
     wire [31:0]                 c_datao;
@@ -150,7 +151,7 @@ module MS_QSPI_XIP_CACHE_ahbl #(parameter NUM_LINES = 32 )
 
     assign c_A          =   last_HADDR[23:0];
     
-    DMC_Nx16 #(.NUM_LINES(NUM_LINES)) 
+    DMC_Nx16 #(.NUM_LINES(NUM_LINES), .LINE_SIZE(LINE_SIZE)) 
         CACHE ( 
                 .clk(HCLK), 
                 .rst_n(HRESETn), 
@@ -162,10 +163,10 @@ module MS_QSPI_XIP_CACHE_ahbl #(parameter NUM_LINES = 32 )
                 .wr(c_wr[1]) 
             );
 
-    FLASH_QSPI  FR (   
+    FLASH_QSPI  #(.LINE_SIZE(LINE_SIZE))FR (   
                 .clk(HCLK), 
                 .rst_n(HRESETn), 
-                .addr({HADDR[23:4], 4'd0}), 
+                .addr({HADDR[23:OFF_WIDTH], {OFF_WIDTH{1'b0}}}), 
                 .rd(fr_rd), 
                 .done(fr_done), 
                 .line(c_line),
